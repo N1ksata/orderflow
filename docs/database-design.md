@@ -78,3 +78,19 @@ Stores the products available in the store.
 - unit_price is required and must be greater than 0.
 - The combination of order_id and product_id must be unique, so each product appears once per order.
 - Changing the product’s current price must not change an existing order item’s unit price.
+
+## Outbox Events
+
+| Column       | Data type | Purpose                               |
+| ------------ | --------- | ------------------------------------- |
+| event_id     | integer   | identifies this event record          |
+| event_type   | text      | Names the event, such as OrderCreated |
+| order_id     | integer   | identifies the related order          |
+| created_at   | timestamp | when the event is created             |
+| published_at | timestamp | when the publisher sents the event    |
+
+### Rules
+
+- each event has a unique event ID.It must reference to an existing order.
+- published_at stays empty until the event is successfully sent.
+- if sending fails ,published_at will remain empty and retry the event.
