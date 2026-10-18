@@ -1,3 +1,5 @@
+import decimal
+
 class OrderItem:
     def __init__( self , product_id , quantity , unit_price):
 
