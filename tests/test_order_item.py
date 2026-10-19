@@ -1,6 +1,7 @@
 from domain.order_item import OrderItem
 import decimal
 import pytest
+from dataclasses import FrozenInstanceError
 
 
 def test_order_item_creation():
@@ -16,28 +17,33 @@ def test_order_item_rejects_zero_quantity():
     with pytest.raises(ValueError):
         OrderItem(2 , 0 , decimal.Decimal("50.01"))
 
+
 def test_order_item_rejects_fractional_quantity():
     with pytest.raises(ValueError):
             OrderItem(3 , 2.5 , decimal.Decimal("50.01"))
+
 
 def test_order_item_rejects_negative_quantity():
     with pytest.raises(ValueError):
             OrderItem(4 , -1 , decimal.Decimal("50.01"))
 
+
 def test_order_item_rejects_string_quantity():
     with pytest.raises(ValueError):
             OrderItem(5 , "2" , decimal.Decimal("50.01"))
+
 
 def test_order_item_rejects_boolean_quantity():
     with pytest.raises(ValueError):
             OrderItem(5 , True , decimal.Decimal("50.01"))
 
+
 def test_order_item_rejects_None_quantity():
     with pytest.raises(ValueError):
             OrderItem(5 , None , decimal.Decimal("50.01"))
 
-# tests for product_id
 
+# tests for product_id
 def test_order_item_rejects_zero_product_id():
     with pytest.raises(ValueError):
         OrderItem(0, 2, decimal.Decimal("50.00"))
@@ -117,3 +123,10 @@ def test_order_item_rejects_positive_infinity_price():
 def test_order_item_rejects_negative_infinity_price():
     with pytest.raises(ValueError):
         OrderItem(1, 2, decimal.Decimal("-Infinity"))
+
+
+def test_order_item_rejects_quantity_reassignment():
+    item = OrderItem(1, 2, decimal.Decimal("50.00"))
+
+    with pytest.raises(FrozenInstanceError):
+        item.quantity = 3
