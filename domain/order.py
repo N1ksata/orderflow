@@ -24,3 +24,18 @@ class Order():
         for x in self.items:
             if not isinstance(x, OrderItem):
                 raise ValueError("Each item must be an OrderItem.")
+
+        if not isinstance(self.creation_time , datetime ) or self.creation_time.utcoffset() is None:
+            raise ValueError("Creation time must be a datetime with timezone information.")
+
+        if self.status != OrderStatus.PENDING:
+            raise ValueError("We need the status to be pending")
+
+        if self.rejection_reason is not None:
+            raise ValueError("A new order must not have a rejection reason.")
+
+        seen_product_ids = set()
+        for x in self.items:
+            if x.product_id  in seen_product_ids:
+                raise ValueError("Duplicate products are not allowed.")
+            seen_product_ids.add(x.product_id)
