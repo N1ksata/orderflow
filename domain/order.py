@@ -12,6 +12,15 @@ class Order():
     status : OrderStatus = OrderStatus.PENDING
     rejection_reason : str | None = None
 
+    def confirm(self):
+        if self.status == OrderStatus.REJECTED:
+            raise ValueError("The status is rejected!")
+
+        if self.status == OrderStatus.PENDING:
+            self.status = OrderStatus.CONFIRMED
+
+    
+        
 
     def __post_init__(self):
     
