@@ -20,6 +20,18 @@ class Order():
             self.status = OrderStatus.CONFIRMED
 
 
+    def reject(self , reason : str):
+
+        if not isinstance(reason , str) or reason.strip() == "" :
+            raise ValueError("The reason is either not string or its empty")
+
+        if self.status == OrderStatus.CONFIRMED:
+            raise ValueError("A confirmed order cannot be rejected.")
+
+        if self.status == OrderStatus.PENDING:
+            self.rejection_reason = reason
+            self.status = OrderStatus.REJECTED
+
     
     
         
