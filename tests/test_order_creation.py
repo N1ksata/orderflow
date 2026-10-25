@@ -44,9 +44,9 @@ def test_order_rejects_string_creation_time():
         Order(1 , 2 ,(item , ),"Hello") #datetime is string 
 
 
-def test_order_rejects_confirmed_status():
-    with pytest.raises(ValueError):
-        item = OrderItem(1 , 2 , Decimal("50.00"))
+def test_order_does_not_accept_status_argument():
+    item = OrderItem(1 , 2 , Decimal("50.00"))
+    with pytest.raises(TypeError):
 
         Order(1 , 2 ,(item , ), datetime(2026, 10, 24, 15, 30 , tzinfo=timezone.utc) , status=OrderStatus.CONFIRMED)
 
