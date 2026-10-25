@@ -28,6 +28,12 @@ class Order():
         if self.status == OrderStatus.CONFIRMED:
             raise ValueError("A confirmed order cannot be rejected.")
 
+        if self.status == OrderStatus.REJECTED:
+            if reason != self.rejection_reason:
+                raise ValueError("You cannot change the reason")
+            return 
+
+
         if self.status == OrderStatus.PENDING:
             self.rejection_reason = reason
             self.status = OrderStatus.REJECTED
