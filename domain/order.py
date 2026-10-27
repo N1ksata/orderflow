@@ -10,7 +10,7 @@ class Order():
     items : tuple[OrderItem, ...]
     creation_time : datetime 
     _status : OrderStatus = field(default=OrderStatus.PENDING, init = False)
-    rejection_reason : str | None = None
+    _rejection_reason : str | None  = field(default = None, init = False)
 
     def confirm(self):
         if self._status == OrderStatus.REJECTED:
@@ -29,20 +29,22 @@ class Order():
             raise ValueError("A confirmed order cannot be rejected.")
 
         if self._status == OrderStatus.REJECTED:
-            if reason != self.rejection_reason:
+            if reason != self._rejection_reason:
                 raise ValueError("You cannot change the reason")
             return 
 
 
         if self._status == OrderStatus.PENDING:
-            self.rejection_reason = reason
+            self._rejection_reason = reason
             self._status = OrderStatus.REJECTED
 
     @property
     def status(self):
         return self._status
     
-    
+    @property 
+    def rejection_reason(self):
+        return self._rejection_reason
         
 
     def __post_init__(self):
@@ -63,7 +65,7 @@ class Order():
         if self._status != OrderStatus.PENDING:
             raise ValueError("We need the status to be pending")
 
-        if self.rejection_reason is not None:
+        if self._rejection_reason is not None:
             raise ValueError("A new order must not have a rejection reason.")
 
         seen_product_ids = set()

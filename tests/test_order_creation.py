@@ -54,7 +54,7 @@ def test_order_does_not_accept_status_argument():
 def test_order_rejects_pending_order_with_rejection_reason():
     item = OrderItem(1 , 2 , Decimal("50.00"))
 
-    with pytest.raises(ValueError):
+    with pytest.raises(TypeError):
         Order(1 , 2 ,(item , ), datetime(2026, 10, 24, 15, 30, tzinfo=timezone.utc) ,rejection_reason = "out of stock")
 
 
