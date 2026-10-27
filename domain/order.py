@@ -2,6 +2,7 @@ from domain.order_item import OrderItem
 from domain.order_status import OrderStatus
 from datetime import datetime
 from dataclasses import dataclass , field
+from decimal import Decimal
 
 @dataclass
 class Order():
@@ -45,6 +46,13 @@ class Order():
     @property 
     def rejection_reason(self):
         return self._rejection_reason
+
+    @property
+    def total(self):
+        total_ammount = Decimal("0.0")
+        for item in self.items:
+            total_ammount += item.unit_price * item.quantity
+        return total_ammount
         
 
     def __post_init__(self):

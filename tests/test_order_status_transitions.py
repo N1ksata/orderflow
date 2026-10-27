@@ -138,3 +138,17 @@ def test_order_blocks_direct_rejection_reason_assignment():
 
     assert order.rejection_reason is None
     assert order.status == OrderStatus.PENDING
+
+def test_order_total_uses_quantities_and_unit_prices():
+    item1 = OrderItem(1 , 2 , Decimal("50.00"))
+    item2 = OrderItem(2 , 3  , Decimal("20.00"))
+    order = Order(1,5 , (item1, item2,   ) , datetime(2026 , 10 , 27 , 12 , 30 , tzinfo = timezone.utc ))
+
+    assert order.total == Decimal("160.00")
+
+def test_order_total_preserves_decimal_precision():
+    item1 = OrderItem(1 , 3 , Decimal("00.10"))
+    item2 = OrderItem(2 , 1  , Decimal("00.20"))
+    order = Order(1,5 , (item1, item2,   ) , datetime(2026 , 10 , 27 , 12 , 30 , tzinfo = timezone.utc ))
+
+    assert order.total == Decimal("0.50")
