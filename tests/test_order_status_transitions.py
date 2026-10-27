@@ -129,3 +129,12 @@ def test_order_blocks_direct_status_assignment():
 
     assert order.status == OrderStatus.PENDING
 
+def test_order_blocks_direct_rejection_reason_assignment():
+    item = OrderItem(1 , 2 , Decimal("50.00"))
+    order = Order(1,5 , (item ,  ) , datetime(2026 , 10 , 27 , 12 , 30 , tzinfo = timezone.utc ))
+
+    with pytest.raises(AttributeError):
+        order.rejection_reason = "out of stock"
+
+    assert order.rejection_reason is None
+    assert order.status == OrderStatus.PENDING
