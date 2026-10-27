@@ -49,10 +49,10 @@ class Order():
 
     @property
     def total(self):
-        total_ammount = Decimal("0.0")
+        total_amount = Decimal("0.0")
         for item in self.items:
-            total_ammount += item.unit_price * item.quantity
-        return total_ammount
+            total_amount += item.unit_price * item.quantity
+        return total_amount
         
 
     def __post_init__(self):
