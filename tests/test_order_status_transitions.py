@@ -161,3 +161,29 @@ def test_order_blocks_direct_items_assignment():
         order.items = ()
 
     assert order.items == (item , )
+
+def test_order_blocks_direct_order_id_assignment():
+    item = OrderItem(1 , 2 , Decimal("50.00"))
+    order = Order(1,5 , (item ,  ) , datetime(2026 , 10 , 27 , 12 , 30 , tzinfo = timezone.utc ))
+    with pytest.raises(AttributeError):
+        order.order_id = 2
+
+    assert order.order_id == 1
+
+
+def test_order_blocks_direct_user_id_assignment():
+    item = OrderItem(1 , 2 , Decimal("50.00"))
+    order = Order(1,5 , (item ,  ) , datetime(2026 , 10 , 27 , 12 , 30 , tzinfo = timezone.utc ))
+    with pytest.raises(AttributeError):
+        order.user_id = 6
+    assert order.user_id == 5
+
+
+def test_order_blocks_direct_creation_time_assignment():
+    item = OrderItem(1 , 2 , Decimal("50.00"))
+    order = Order(1,5 , (item ,  ) , datetime(2026 , 10 , 27 , 12 , 30 , tzinfo = timezone.utc ))
+    with pytest.raises(AttributeError):
+        order.creation_time = datetime(2027 , 11 , 28 , 1 , 31 , tzinfo = timezone.utc )
+
+    assert order.creation_time == datetime(2026 , 10 , 27 , 12 , 30 , tzinfo = timezone.utc )
+
