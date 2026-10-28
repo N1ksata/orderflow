@@ -8,6 +8,17 @@ class Product():
     _available_stock : int
     
     def __init__(self , product_id , name , price , available_stock ):
+
+        if type(product_id) is not int or product_id <= 0:
+            raise ValueError("Product ID must be a positive integer.")
+        if type(name) is not str or name.strip() == "":
+            raise ValueError("Name must be a non-empty string ")
+        if type(price) is not Decimal or not price.is_finite() or price <= 0:
+            raise ValueError("Price must be a finite, positive Decimal.")
+        if type(available_stock) is not int or available_stock < 0:
+            raise ValueError("Available stock must be a whole positive number or it can be 0.")
+
+
         self._product_id = product_id
         self._name = name
         self._price = price
@@ -29,3 +40,12 @@ class Product():
     @property
     def available_stock(self):
         return self._available_stock
+
+
+    def reserve(self , quantity):
+        if type(quantity) is not int or quantity <= 0 :
+            raise ValueError("Quantity must be whole positive number")
+        if quantity > self._available_stock:
+            raise ValueError("Quantity must not be greater than available stock")
+
+        self._available_stock -= quantity
