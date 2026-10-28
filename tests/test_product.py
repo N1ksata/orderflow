@@ -1,7 +1,7 @@
 from domain.product import Product
 from decimal import Decimal
 import pytest
-
+from domain.exceptions import InsufficientStockError
 
 def test_product_creation_accepts_zero_stock():
     product = Product(1 ,"keyboard" ,Decimal("120.00") , 0)
@@ -128,7 +128,7 @@ def test_product_reserve_all_stock():
 
 def test_product_rejects_insufficient_stock():
     product = Product(1 , "keyboard" , Decimal("120.00") , 5)
-    with pytest.raises(ValueError):
+    with pytest.raises(InsufficientStockError):
         product.reserve(6)
 
     assert product.available_stock == 5

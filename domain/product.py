@@ -1,4 +1,5 @@
 from decimal import Decimal
+from domain.exceptions import InsufficientStockError
 
 
 class Product():
@@ -46,6 +47,6 @@ class Product():
         if type(quantity) is not int or quantity <= 0 :
             raise ValueError("Quantity must be whole positive number")
         if quantity > self._available_stock:
-            raise ValueError("Quantity must not be greater than available stock")
+            raise InsufficientStockError("Not available stock")
 
         self._available_stock -= quantity
