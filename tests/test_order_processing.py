@@ -4,7 +4,7 @@ from decimal import Decimal
 from domain.order_item import OrderItem
 from domain.order_status import OrderStatus
 from datetime import datetime,timezone
-from application.order_processing import process_order
+from application.order_process import process_order
 
 
 def test_order_processing_rejects_insufficient_stock_without_partial_reservation():
